@@ -29,6 +29,8 @@ def filtrar(info:dict, filtro:str):
       aux.setdefault(i,info[i])
   return aux
 
+
+
 def actualizar(ruta:str,identificador:int,datosActualizados:dict):
   archivoExcel=load_workbook(ruta)
 
@@ -47,9 +49,9 @@ def actualizar(ruta:str,identificador:int,datosActualizados:dict):
       fila=i[0].row
       encontro=True
       for d in datosActualizados:
-        if d=='titulo' and not(datosActualizados[d=='']):
+        if d=='titulo' and not(datosActualizados[d]==''):
           hoja.cell(row=fila,column=titulo).value=datosActualizados[d]
-        elif d=='descripcion' and not(datosActualizados[d=='']):
+        elif d=='descripcion' and not(datosActualizados[d]==''):
           hoja.cell(row=fila,column=descripcion).value=datosActualizados[d]
         elif d=='estado' and not(datosActualizados[d]==''):
           hoja.cell(row=fila,column=estado).value=datosActualizados[d]
@@ -167,3 +169,19 @@ while True:
     datosActualizados['fecha inicio']=str(now.day) +'/'+str(now.month)+'/'+str(now.year)
     actualizar(rut,idActualizar, datosActualizados)
     print()
+  elif accion==3:
+    datosActualizados={'titulo':'','descripcion':'','estado':'','fecha inicio':'','fecha finalizacion':''}
+    print('** Crear nueva Tarea **\n')
+    print('** Titulo **\n')
+    datosActualizados['titulo']=input('Indique el titulo de la tarea: ')
+    print('\n** descripcion **')
+    datosActualizados['descripcion']=input('Indique la descripcion de la tarea: ')
+    print()
+    datosActualizados['estado']='En espera'
+    now = datetime.now()
+    datosActualizados['fecha inicio']=str(now.day) +'/' + str(now.month)+'/'+str(now.year)
+    agregar(rut,datosActualizados)
+  elif accion==4:
+    print('\n** Eliminar tarea **')
+    iden=int(input('Indique el ID de la tarea que desea eliminar: '))
+    borrar(rut,iden)
